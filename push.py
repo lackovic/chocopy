@@ -15,30 +15,30 @@ def RunVerbose(command):
     print(output)
     return
     
-packages = os.listdir('src/')
-print(packages)
+packageNames = os.listdir('src/')
+print("Pushing packages = " + str(packageNames))
 
-for p in packages:
-    print("Checking versions -> " + p)
-    distantVersions = subprocess.getoutput('choco list --all -r ' + p).split('\n')
+for packageName in packageNames:
+    print("\nChecking versions for " + packageName)
+    remoteVersions = subprocess.getoutput('choco list --all -r ' + packageName).split('\n')
+    print("Remote versions = " + str(remoteVersions))
 
-    # Get the packed files
-    files = glob.glob("packed\\" + p + "*.nupkg")
+    files = glob.glob("packed\\" + packageName + "*.nupkg")
 
     for f in files:
 
         versionFound = False
-        version = f.replace("packed\\" + p + ".", "").replace(".nupkg", "")
+        localVersion = f.replace("packed\\" + packageName + ".", "").replace(".nupkg", "")
 
-        for v in distantVersions:
-            current = v.split("|")[1]
-            if(current == version):
+        for v in remoteVersions:
+            remoteVersion = v.split("|")[1]
+            if(remoteVersion == localVersion):
                 versionFound = True
-                print("Packed version " + version + " is already published")
+                print("\nLocal version " + localVersion + " is already published, skipping")
 
-        # If the version is not found, push it
         if not versionFound:
-            print("Pushing -> " + p + " | " + version)
+            print("\nLocal version " + localVersion + " is not published")
+            print("Pushing version " + localVersion + " for " + packageName)
             RunVerbose('choco push ' + f)
-            RunVerbose('git add src\\' + p + '\\latest.json')
-            RunVerbose('git commit -m \"' + p + '|' + version + '\"')
+            RunVerbose('git add src\\' + packageName + '\\latest.json')
+            RunVerbose('git commit -m \"' + packageName + '|' + localVersion + '\"')
