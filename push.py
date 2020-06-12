@@ -9,6 +9,12 @@ import os
 import subprocess
 import glob
 
+def RunVerbose(command):
+    print('Running ' + command)
+    output = subprocess.getoutput(command)
+    print(output)
+    return
+    
 packages = os.listdir('src/')
 print(packages)
 
@@ -28,11 +34,11 @@ for p in packages:
             current = v.split("|")[1]
             if(current == version):
                 versionFound = True
+                print("Packed version " + version + " is already published")
 
         # If the version is not found, push it
         if not versionFound:
             print("Pushing -> " + p + " | " + version)
-            subprocess.getoutput('choco push ' + f)
-            subprocess.getoutput('git add src\\' + p + '\\latest.json')
-            subprocess.getoutput('git commit -m \"' + p + '|' + version + '\"')
-
+            RunVerbose('choco push ' + f)
+            RunVerbose('git add src\\' + p + '\\latest.json')
+            RunVerbose('git commit -m \"' + p + '|' + version + '\"')
