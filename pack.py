@@ -21,6 +21,9 @@ for p in packages:
     versionLocalData = func.GetLocalData(p)
     versionLocal = versionLocalData["version"]
 
+    if not os.path.exists('packed/'):
+        os.makedirs('packed/')
+
     if not os.path.exists("packed/" + p + "." + versionLocal + ".nupkg"):
         print("Packing -> " + p + " | " + versionLocal)
 
