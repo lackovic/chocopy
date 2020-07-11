@@ -35,5 +35,5 @@ A [Chocolatey](https://chocolatey.org/) package update script written in Python 
 1. To publish the packed files to Chocolatey and commit `latest.json` run:
 
    ```powershell
-   .\push.py
+   .\push.py 
    ```
