@@ -16,7 +16,7 @@ A [Chocolatey](https://chocolatey.org/) package update script written in Python 
 - Register your [API key on Chocolatey](https://chocolatey.org/account) and then _run as administrator_:
 
    ```powershell
-   choco setapikey -k a04527ea-4ace-449e-8eea-1d7c267ab574 -s https://push.chocolatey.org/
+   choco setapikey -k <yourAPIkey> -s https://push.chocolatey.org/
    ```
 
 ## Running
