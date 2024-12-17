@@ -13,6 +13,12 @@ A [Chocolatey](https://chocolatey.org/) package update script written in Python 
    python -m pip install requests
    ```
 
+- Set the default push source configuration:
+
+   ```powershell
+   choco config set --name="'defaultPushSource'" --value="'https://push.chocolatey.org/'"
+   ```
+
 - Register your [API key on Chocolatey](https://chocolatey.org/account) and then _run as administrator_:
 
    ```powershell
