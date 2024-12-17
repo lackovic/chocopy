@@ -20,7 +20,7 @@ print("Pushing packages = " + str(packageNames))
 
 for packageName in packageNames:
     print("\nChecking versions for " + packageName)
-    remoteVersions = subprocess.getoutput('choco list --all -r ' + packageName).split('\n')
+    remoteVersions = subprocess.getoutput('choco search --all -r ' + packageName).split('\n')
     print("Remote versions = " + str(remoteVersions))
 
     files = glob.glob("packed\\" + packageName + "*.nupkg")
