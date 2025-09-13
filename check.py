@@ -34,4 +34,4 @@ def WriteVersionFile(name, version, url):
     return
 
 # Running the routines
-PackageRoutine("bulkrenameutility", "https://www.bulkrenameutility.co.uk/Download.php", r'(?<=<span class="text-muted">version )(.*)(?=<\/span>)', "https://www.bulkrenameutility.co.uk/Downloads/BRU_setup.exe")
+PackageRoutine("bulkrenameutility", "https://www.bulkrenameutility.co.uk/Download.php", r'(?<=<span class="text-muted">version\s)(\d{1,2}(\.\d{1,2})?(\.\d{1,2})?(\.\d{1,2})?)\s(?=<\/span>)', "https://www.s3.tgrmn.com/bru4/BRU_setup_{{version}}.exe")
