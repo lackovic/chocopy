@@ -10,6 +10,7 @@ import zipfile
 import pathlib
 import shutil
 import functions as func
+import glob
 
 # Routine de vérification et de paquetage automatique en fonction de la version connue sur le site de Chocolatey
 packages = os.listdir('src/')
@@ -53,9 +54,15 @@ for p in packages:
         choco = subprocess.Popen(["choco", "pack"], cwd="tmp/")
         choco.wait()
 
-        # Move the package to the packed directory
-        os.rename("tmp/" + p + "." + versionLocal + ".nupkg", "packed/" + p + "." + versionLocal + ".nupkg")
+        # Locate the produced nupkg (Chocolatey may normalize version 4.1.0.0 -> 4.1.0)
+        nupkgs = glob.glob(f"tmp/{p}*.nupkg")
+        if not nupkgs:
+            raise FileNotFoundError(f"No package file found for {p} in tmp/. Expected version {versionLocal}")
+        pkg_path = max(nupkgs, key=os.path.getmtime)  # latest if multiple
+        dest_path = os.path.join("packed", os.path.basename(pkg_path))
+        shutil.move(pkg_path, dest_path)
+        print(f"Moved -> {dest_path}")
 
         # Clean up temp directory
         shutil.rmtree('tmp/')
-        
+
